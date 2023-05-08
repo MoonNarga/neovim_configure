@@ -13,3 +13,8 @@ require("bufferline").setup {
         }}
     }
 }
+
+--切换buffer
+vim.keymap.set("n", "L", ":bnext<CR>")
+vim.keymap.set("n", "H", ":bprevious<CR>")
+

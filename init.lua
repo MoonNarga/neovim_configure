@@ -1,8 +1,7 @@
 if vim.g.vscode then
     -- VSCode extension
-    require("plugins.plugins-setup")
-
-    require("core.keymaps")
+    require("vscode.keymaps")
+    require("vscode.options")
 
 else
     -- ordinary Neovim

@@ -33,4 +33,3 @@ opt.splitbelow = true
 --外观
 opt.termguicolors = true
 opt.signcolumn = "yes"
-vim.cmd[[colorscheme tokyonight-moon]]

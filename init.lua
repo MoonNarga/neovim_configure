@@ -5,12 +5,15 @@ if vim.g.vscode then
 
 else
     -- ordinary Neovim
-    require("plugins.plugins-setup")
-
     require("core.options")
     require("core.keymaps")
 
-    require("plugins.nvim-tree")
+    require("lazyvim")
+
+
+--    require("plugins.plugins-setup")
+
+--[[    require("plugins.nvim-tree")
     require("plugins.lualine")
     require("plugins.treesitter")
     require("plugins.lsp")
@@ -24,5 +27,6 @@ else
     require("plugins.toggleterm")
     require("plugins.symbols-outline")
     require("plugins.formatter")
+--]]
 end
 

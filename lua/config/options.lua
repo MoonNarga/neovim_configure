@@ -4,3 +4,9 @@
 
 vim.opt.shell = "pwsh.exe"
 vim.opt.shellcmdflag = "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command"
+
+vim.opt.expandtab = true
+vim.opt.shiftwidth = 4
+vim.opt.tabstop = 4
+
+vim.g.ai_cmp = true

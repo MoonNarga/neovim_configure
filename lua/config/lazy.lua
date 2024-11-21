@@ -20,10 +20,6 @@ require("lazy").setup({
     { "LazyVim/LazyVim", import = "lazyvim.plugins" },
     -- import/override with your plugins
     { import = "plugins" },
-    {
-      "Civitasv/cmake-tools.nvim",
-      commit = "620ce8036337b320c6abb802df658916857191d9",
-    },
   },
   defaults = {
     -- By default, only LazyVim plugins will be lazy-loaded. Your custom plugins will load during startup.

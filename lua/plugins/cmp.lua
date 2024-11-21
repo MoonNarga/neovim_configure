@@ -1,65 +1,36 @@
 return {
   {
     "hrsh7th/nvim-cmp",
+    lazy = false,
     dependencies = {
-      "hrsh7th/cmp-nvim-lsp", -- LSP 补全
-      "hrsh7th/cmp-buffer", -- 缓冲区补全
-      "hrsh7th/cmp-path", -- 文件路径补全
-      "hrsh7th/cmp-cmdline", -- 命令行补全
-      "hrsh7th/cmp-nvim-lua", -- Lua 补全
-      "L3MON4D3/LuaSnip", -- 代码片段
+      {
+        "zbirenbaum/copilot-cmp",
+        enabled = vim.g.ai_cmp, -- only enable if wanted
+        opts = {},
+        config = function(_, opts)
+          local copilot_cmp = require("copilot_cmp")
+          copilot_cmp.setup(opts)
+          -- attach cmp source whenever copilot attaches
+          -- fixes lazy-loading issues with the copilot cmp source
+          LazyVim.lsp.on_attach(function()
+            copilot_cmp._on_insert_enter({})
+          end, "copilot")
+        end,
+        specs = {
+          {
+            "nvim-cmp",
+            optional = true,
+            ---@param opts cmp.ConfigSchema
+            opts = function(_, opts)
+              table.insert(opts.sources, 1, {
+                name = "copilot",
+                group_index = 1,
+                priority = 100,
+              })
+            end,
+          },
+        },
+      },
     },
-    opts = function()
-      local cmp = require("cmp")
-      return {
-        snippet = {
-          expand = function(args)
-            require("luasnip").lsp_expand(args.body)
-          end,
-        },
-        mapping = cmp.mapping.preset.insert({
-          ["<C-b>"] = cmp.mapping.scroll_docs(-4),
-          ["<C-f>"] = cmp.mapping.scroll_docs(4),
-          ["<C-Space>"] = cmp.mapping.complete(),
-          ["<C-e>"] = cmp.mapping.abort(),
-          ["<CR>"] = cmp.mapping.confirm({ select = true }),
-        }),
-        sources = cmp.config.sources({
-          { name = "nvim_lsp" },
-          { name = "buffer" },
-          { name = "path" },
-        }),
-        cmdline = {
-          [":"] = {
-            mapping = cmp.mapping.preset.cmdline(),
-            sources = cmp.config.sources({
-              { name = "cmdline" },
-            }, {
-              { name = "path" },
-            }),
-          },
-          ["/"] = {
-            mapping = cmp.mapping.preset.cmdline(),
-            sources = {
-              { name = "buffer" },
-            },
-          },
-        },
-      }
-    end,
-    config = function(_, opts)
-      local cmp = require("cmp")
-
-      -- 设置插入模式的补全
-      cmp.setup(opts)
-
-      -- 设置命令行模式的补全
-      for cmd_type, config in pairs(opts.cmdline) do
-        cmp.setup.cmdline(cmd_type, {
-          mapping = config.mapping,
-          sources = config.sources,
-        })
-      end
-    end,
   },
 }
